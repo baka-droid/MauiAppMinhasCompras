@@ -2,43 +2,51 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.ListaProduto"
-             Title="ListaProduto">
+             Title="Lista de Produtos">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1"/>
         <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked"/>
     </ContentPage.ToolbarItems>
 
-    <VerticalStackLayout>
-        <SearchBar x:Name="txt_search" 
-                   Placeholder= "Buscar de Produtos"
+    <!-- Usando Grid principal em vez de VerticalStackLayout para a ListView ocupar a tela toda -->
+    <Grid RowDefinitions="Auto, *">
+
+        <SearchBar Grid.Row="0"
+                   x:Name="txt_search" 
+                   Placeholder="Buscar Produtos"
                    TextChanged="txt_search_TextChanged"/>
-        <ListView x:Name="lst_produtos">
+
+        <ListView Grid.Row="1" x:Name="lst_produtos" ItemSelected="lst_produtos_ItemSelected"  >
             <ListView.Header>
-                <Grid ColumnDefinitions="*, *, *, *, *, *">
-                    <Label Grid.Column="0" Text="ID"/>
-                    <Label Grid.Column="1" Text="Descrição"/>
-                    <Label Grid.Column="2" Text="Preço"/>
-                    <Label Grid.Column="3" Text="Quantidade"/>
-                    <Label Grid.Column="4" Text="Total"/>
-                </Grid>     
+                <Grid ColumnDefinitions="40, *, 70, 50, 80" Padding="10, 5">
+                    <Label Grid.Column="0" Text="ID" FontAttributes="Bold" />
+                    <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold" />
+                    <Label Grid.Column="2" Text="Preço" FontAttributes="Bold" />
+                    <Label Grid.Column="3" Text="Qtd" FontAttributes="Bold" />
+                    <Label Grid.Column="4" Text="Total" FontAttributes="Bold" />
+                </Grid>
             </ListView.Header>
+
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <ViewCell.ContextActions>
-                            <MenuItem Text="Remover" Clicked="MenuItem_Clicked"
+                            <!-- Tag devidamente fechada no final -->
+                            <MenuItem Text="Remover" Clicked="MenuItem_Clicked" />
                         </ViewCell.ContextActions>
-                        <Grid ColumnDefinitions="*, *, *, *, *, *">
+
+                        <Grid ColumnDefinitions="40, *, 70, 50, 80" Padding="10, 5">
                             <Label Grid.Column="0" Text="{Binding Id}"/>
                             <Label Grid.Column="1" Text="{Binding Descricao}"/>
-                            <Label Grid.Column="2" Text="{Binding Preco}"/>
+                            <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{0:C}'}"/>
                             <Label Grid.Column="3" Text="{Binding Quantidade}"/>
-                            <Label Grid.Column="4" Text="{Binding Total}"/>
+                            <Label Grid.Column="4" Text="{Binding Total, StringFormat='{0:C}'}"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </VerticalStackLayout>
+
+    </Grid>
 </ContentPage>
